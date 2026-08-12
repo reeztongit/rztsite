@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nama Anda | Aspiring Developer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Enhanced Floating Ambient Orbs Background -->
+    <div class="ambient-background">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3" id="interactive-orb"></div>
+    </div>  
+
+    <!-- Floating Glassmorphism Navbar -->
+    <header class="navbar-wrapper">
+        <nav class="navbar-pill">
+            <!-- Brand / Logo -->
+            <a href="#" class="logo">
+                <!--- span class="logo-icon">✨</span -->
+                <span class="logo-text">rzt<span>site</span></span>
+            </a>
+
+            <!-- Menu Navigasi Tengah -->
+            <ul class="nav-links">
+                <li><a href="#about">Tentang</a></li>
+                <li><a href="#projects">Proyek</a></li>
+                <li><a href="#contact">Kontak</a></li>
+            </ul>
+
+            <!-- Aksi Kanan (Toggle Theme + CTA) -->
+            <div class="nav-actions">
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+                    <span class="sun-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </span>
+                    <span class="moon-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </span>
+                </button>
+                <a href="#contact" class="btn-cta">Hubungi Saya</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Hi, i'm <span>Harizt</span></h1>
+            <p>Seorang tech enthusiast yang sedang mendalami web development. Tertarik pada pembuatan antarmuka web yang bersih dan fungsional.</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">Lihat Proyek</a>
+                <a href="#contact" class="btn btn-secondary">Hubungi Saya</a>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- About Section -->
+    <section id="about" class="about reveal">
+        <div class="container">
+            <h2>Tentang Saya</h2>
+            <p>Saya sedang dalam perjalanan belajar pemrograman web...</p>
+            
+            <div class="skills">
+                <h3>Keahlian yang Sedang Dipelajari</h3>
+                <ul>
+                    <li>HTML5 & CSS3</li>
+                    <li>JavaScript</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects reveal">
+        <div class="container">
+            <h2>Proyek Saya</h2>
+            <div class="project-grid">
+                
+                <!-- Kartu Proyek 1 -->
+                <div class="project-card">
+                    <h3>Website Portofolio</h3>
+                    <p>Website pribadi pertama yang dibuat menggunakan HTML dan CSS murni untuk membangun personal branding.</p>
+                    <a href="#" class="project-link">Lihat Kode →</a>
+                </div>
+
+                <!-- Kartu Proyek 2 -->
+                <div class="project-card">
+                    <h3>Proyek Latihan JS</h3>
+                    <p>Aplikasi kalkulator / to-do list sederhana menggunakan JavaScript untuk melatih logika pemrograman.</p>
+                    <a href="#" class="project-link">Lihat Kode →</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact reveal">
+        <div class="container">
+            <h2>Mari Terhubung</h2>
+            <p>Saya selalu terbuka untuk diskusi, kolaborasi, atau sekadar menyapa!</p>
+            <div class="social-links">
+                <a href="https://github.com/reeztongit" target="_blank">GitHub</a>
+                <a href="https://www.instagram.com/reezt._/" target="_blank">Instagram</a>
+                <a href="mailto:hariztoneverything@gmail.com">Email</a>
+            </div>
+            
+            <button id="btn-sapa" class="btn btn-primary" style="margin-top: 20px;">Klik untuk Menyapa</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>made by harizt</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

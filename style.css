@@ -1,0 +1,603 @@
+/* --- Javii Tools / Modern Bento Style --- */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+/* --- Mode Default (Dark Mode) --- */
+:root {
+    --bg-dark: #090d16;
+    --card-bg: #131b2e;
+    --card-border: #1e293b;
+    --card-hover-border: #3b82f6;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent: #38bdf8;
+    --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+    --pill-bg: rgba(56, 189, 248, 0.1);
+    --header-bg: rgba(9, 13, 22, 0.8);
+}
+
+/* --- Override Variabel untuk Light Mode --- */
+[data-theme="light"] {
+    --bg-dark: #f8fafc;
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    --card-hover-border: #0284c7;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --accent: #0284c7;
+    --accent-gradient: linear-gradient(135deg, #0284c7 0%, #6366f1 100%);
+    --pill-bg: rgba(2, 132, 199, 0.1);
+    --header-bg: rgba(248, 250, 252, 0.8);
+}
+
+/* Transisi halus saat berganti tema */
+body, header, .project-card, .skills, .btn, .social-links a {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- Navigation --- */
+.navbar-wrapper {
+    position: sticky;
+    top: 16px;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    padding: 0 16px;
+    background: transparent !important; /* MENGHAPUS BACKGROUND KOTAK DI LUAR NAVBAR */
+}
+
+.navbar-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 900px;
+    padding: 8px 12px 8px 18px;
+    border-radius: 99px;
+    
+    /* Efek Frosted Glass (Blur di belakang navbar saja) */
+    background: rgba(255, 255, 255, 0.7); /* Transparan untuk Light Mode */
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Penyesuaian saat Dark Mode */
+[data-theme="dark"] .navbar-pill {
+    background: rgba(19, 27, 46, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Brand / Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.logo-icon {
+    font-size: 1.1rem;
+}
+
+.logo-text span {
+    color: var(--accent);
+}
+
+/* Menu Navigasi Tengah */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: var(--text-primary);
+}
+
+/* Area Tombol Kanan */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Tombol Toggle Tema Lingkaran Kecil */
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .theme-toggle-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* SVG Icon Controls */
+.theme-toggle-btn .sun-icon { display: flex; }
+.theme-toggle-btn .moon-icon { display: none; }
+
+[data-theme="light"] .theme-toggle-btn .sun-icon { display: none; }
+[data-theme="light"] .theme-toggle-btn .moon-icon { display: flex; }
+
+/* Tombol CTA Hitam/Pill Sesuai Contoh Gambar */
+.btn-cta {
+    background-color: var(--text-primary);
+    color: var(--bg-dark);
+    padding: 8px 18px;
+    border-radius: 99px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-cta:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* Responsif Mobile: Sembunyikan link navigasi di layar sangat kecil */
+@media (max-width: 640px) {
+    .nav-links {
+        display: none;
+    }
+}
+
+/* --- Hero Section --- */
+.hero {
+    padding: 90px 0 60px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+}
+
+.hero h1 span {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto 32px;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+
+
+/* --- Buttons (Javii Style) --- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 99px; /* Pill shape */
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: var(--accent-gradient);
+    color: #090d16;
+    box-shadow: 0 4px 20px rgba(56, 189, 248, 0.25);
+    border: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(56, 189, 248, 0.4);
+}
+
+.btn-secondary {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--card-border);
+}
+
+.btn-secondary:hover {
+    border-color: var(--accent);
+    background-color: #1a243b;
+}
+
+/* --- Sections & Bento Cards --- */
+section {
+    padding: 50px 0;
+}
+
+section h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 28px;
+    letter-spacing: -0.5px;
+}
+
+/* Bento Card Frame */
+.about .container,
+.skills,
+.project-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 28px;
+    transition: all 0.3s ease;
+}
+
+.skills {
+    margin-top: 20px;
+}
+
+.skills h3 {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+/* Pill Tags for Skills */
+.skills ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skills li {
+    background-color: var(--pill-bg);
+    color: var(--accent);
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+/* Bento Grid for Projects */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* --- Spotlight Glow Effect --- */
+.project-card {
+    position: relative;
+    overflow: hidden; /* Menahan cahaya agar tetap di dalam kartu */
+}
+
+/* Elemen cahaya buatan */
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: var(--mouse-y, -100px);
+    left: var(--mouse-x, -100px);
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(56, 189, 248, 0) 70%);
+    transform: translate(-50%, -50%);
+    pointer-events: none; /* Supaya tidak menghalangi klik mouse */
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.project-card:hover::before {
+    opacity: 0.5;
+}
+
+.project-card:hover {
+    border-color: var(--card-hover-border);
+    transform: translateY(-4px);
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+}
+
+.project-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.project-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.project-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.project-link:hover {
+    text-decoration: underline;
+}
+
+/* --- Contact & Footer --- */
+.contact {
+    text-align: center;
+}
+
+.contact p {
+    color: var(--text-secondary);
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.social-links a {
+    color: var(--text-primary);
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 10px 20px;
+    border-radius: 99px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.social-links a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+footer {
+    text-align: right;
+    padding: 20px 20px;
+    border-top: 1px solid var(--card-border);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-top: 70px;
+}
+
+/* Styling Tombol Toggle Lingkaran */
+.theme-toggle-btn {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.theme-toggle-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: scale(1.05);
+}
+
+/* Memastikan SVG Kustom Memiliki Ukuran Proporsional */
+.theme-toggle-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;   /* Mengikuti warna teks tombol secara otomatis */
+    stroke: currentColor; /* Jika SVG Anda menggunakan garis/stroke */
+}
+
+/* Pengaturan Tampilan berdasarkan Tema */
+/* Mode Dark (Default): Tampilkan ikon matahari (untuk ubah ke mode terang) */
+.theme-toggle-btn .sun-icon {
+    display: flex;
+}
+.theme-toggle-btn .moon-icon {
+    display: none;
+}
+
+/* Mode Light: Tampilkan ikon bulan (untuk ubah ke mode gelap) */
+[data-theme="light"] .theme-toggle-btn .sun-icon {
+    display: none;
+}
+[data-theme="light"] .theme-toggle-btn .moon-icon {
+    display: flex;
+}
+
+/* --- 1. Smooth Scroll untuk Navigasi --- */
+html {
+    scroll-behavior: smooth;
+}
+
+/* --- 2. Keyframes Animasi Fade In --- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- 3. Terapan Animasi pada Elemen --- */
+.hero-content {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+/* State Aktif: Dipemicu oleh JS saat di-scroll (muncul penuh) */
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* --- Abstract Floating Ambient Orbs --- */
+.ambient-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.orb {
+    position: absolute;
+    filter: blur(90px); /* Blur sedikit dikurangi agar bentuk abstraknya lebih berstruktur */
+    opacity: 0.45;
+    transition: opacity 0.5s ease;
+}
+
+/* Orb 1: Bentuk Cairan Abstrak 1 (Cyan/Blue) */
+.orb-1 {
+    width: 500px;
+    height: 420px;
+    /* Border-radius acak membuat bentuk gumpalan abstrak */
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    background: radial-gradient(circle, #38bdf8 0%, rgba(56, 189, 270, 0) 70%);
+    top: -120px;
+    left: -120px;
+    animation: floatOrbAbstract1 22s infinite alternate ease-in-out;
+}
+
+/* Orb 2: Bentuk Cairan Abstrak 2 (Purple/Indigo) */
+.orb-2 {
+    width: 600px;
+    height: 500px;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    background: radial-gradient(circle, #818cf8 0%, rgba(129, 140, 248, 0) 70%);
+    bottom: -180px;
+    right: -120px;
+    animation: floatOrbAbstract2 26s infinite alternate ease-in-out;
+}
+
+/* Orb 3: Interactive Cursor Orb (Bentuk Abstrak Merah Muda/Pink) */
+.orb-3 {
+    width: 400px;
+    height: 350px;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    background: radial-gradient(circle, #8d3ff4 0%, rgba(244, 63, 94, 0) 50%);
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+}
+
+/* Penyesuaian untuk Light Mode */
+[data-theme="light"] .orb {
+    opacity: 0.28;
+}
+
+[data-theme="light"] .orb-3 {
+    opacity: 0.18;
+}
+
+/* Keyframes Pergerakan Jauh & Rotasi Abstrak */
+@keyframes floatOrbAbstract1 {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    }
+    33% {
+        transform: translate(250px, 180px) rotate(120deg) scale(1.3);
+        border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%;
+    }
+    66% {
+        transform: translate(-100px, 320px) rotate(240deg) scale(0.85);
+        border-radius: 30% 70% 40% 60% / 50% 30% 70% 50%;
+    }
+    100% {
+        transform: translate(180px, -60px) rotate(360deg) scale(1.1);
+        border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    }
+}
+
+@keyframes floatOrbAbstract2 {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+    33% {
+        transform: translate(-280px, -200px) rotate(-120deg) scale(1.25);
+        border-radius: 40% 60% 70% 30% / 50% 70% 30% 50%;
+    }
+    66% {
+        transform: translate(120px, -350px) rotate(-240deg) scale(0.9);
+        border-radius: 70% 30% 30% 70% / 30% 50% 50% 70%;
+    }
+    100% {
+        transform: translate(-150px, 100px) rotate(-360deg) scale(1.15);
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+}
