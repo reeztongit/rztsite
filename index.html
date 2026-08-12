@@ -111,15 +111,46 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
+<!-- Contact Section dengan Formulir Aktif -->
     <section id="contact" class="contact reveal">
         <div class="container">
             <h2>Mari Terhubung</h2>
-            <p>Saya selalu terbuka untuk diskusi, kolaborasi, atau sekadar menyapa!</p>
+            <p>Saya selalu terbuka untuk diskusi, peluang kolaborasi, atau sekadar menyapa!</p>
+
+            <!-- Form Kontak -->
+            <form action="https://api.web3forms.com/submit" method="POST" id="contact-form" class="contact-form">
+                <!-- PENTING: Ganti nilai value di bawah dengan Access Key milik Anda dari Web3Forms -->
+                <input type="hidden" name="access_key" value="26992454-9299-4ad4-b194-c4143c905cb8">
+                
+                <!-- Pengaturan Subjek Email -->
+                <input type="hidden" name="subject" value="Pesan Baru dari Website Portofolio">
+                <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Nama Anda" required class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email Anda" required class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <textarea name="message" placeholder="Pesan Anda..." rows="5" required class="form-input"></textarea>
+                </div>
+
+                <button type="submit" id="form-btn" class="btn btn-primary btn-submit">
+                    <span>Kirim Pesan</span>
+                </button>
+
+                <!-- Pesan Notifikasi Sukses/Gagal -->
+                <div id="form-result" class="form-result"></div>
+            </form>
+
+            <!-- Social Links -->
             <div class="social-links">
                 <a href="https://github.com/reeztongit" target="_blank">GitHub</a>
                 <a href="https://www.instagram.com/reezt._/" target="_blank">Instagram</a>
-                <a href="mailto:hariztoneverything@gmail.com">Email</a>
+                <a href="mailto:hariztoneverything@gmail.com">Email Direct</a>
             </div>
             
             <button id="btn-sapa" class="btn btn-primary" style="margin-top: 20px;">Klik untuk Menyapa</button>

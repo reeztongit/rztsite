@@ -85,4 +85,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
         animateOrb();
     }
+
+    // --- AJAX Form Handling Web3Forms ---
+    const form = document.getElementById('contact-form');
+    const result = document.getElementById('form-result');
+    const submitBtn = document.getElementById('form-btn');
+
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Ubah teks tombol saat sedang mengirim
+            const originalBtnText = submitBtn.innerText;
+            submitBtn.innerText = 'Mengirim...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+            .then(async (response) => {
+                let json = await response.json();
+                if (response.status == 200) {
+                    result.className = "form-result success";
+                    result.innerHTML = "✨ Pesan berhasil terkirim! Saya akan segera membalasnya.";
+                } else {
+                    result.className = "form-result error";
+                    result.innerHTML = json.message;
+                }
+            })
+            .catch(error => {
+                result.className = "form-result error";
+                result.innerHTML = "Terjadi kesalahan. Silakan coba lagi nanti.";
+            })
+            .then(function() {
+                // Reset form dan tombol
+                form.reset();
+                submitBtn.innerText = originalBtnText;
+                submitBtn.disabled = false;
+                
+                // Sembunyikan notifikasi setelah 5 detik
+                setTimeout(() => {
+                    result.style.display = "none";
+                }, 5000);
+            });
+        });
+    }
 });
