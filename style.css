@@ -116,16 +116,20 @@ body {
     padding: 0;
 }
 
+/* Styling awal link navigasi */
 .nav-links a {
     text-decoration: none;
-    color: var(--text-secondary);
+    color: var(--text-secondary); /* Warna teks default */
     font-size: 0.9rem;
     font-weight: 500;
-    transition: color 0.2s ease;
+    transition: color 0.25s ease, transform 0.25s ease; /* Transisi halus */
+    display: inline-block;
 }
 
+/* Efek saat kursor diarahkan (Hover) */
 .nav-links a:hover {
-    color: var(--text-primary);
+    color: var(--accent); /* Warna berubah menjadi warna aksen (misal: cyan / biru) */
+    transform: translateY(-1px); /* Efek sedikit terangkat ke atas */
 }
 
 /* Area Tombol Kanan */
@@ -310,7 +314,7 @@ section h2 {
     border-radius: 99px;
     font-size: 0.85rem;
     font-weight: 600;
-    border: 1px solid rgba(56, 189, 248, 0.2);
+    border: 1px solid rgba(255, 45, 45, 0.2);
 }
 
 /* Bento Grid for Projects */
@@ -348,7 +352,7 @@ section h2 {
 .project-card:hover {
     border-color: var(--card-hover-border);
     transform: translateY(-4px);
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 35px -10px rgba(56, 189, 248, 0.2); /* Glow biru cyan */
 }
 
 .project-card h3 {
@@ -407,13 +411,47 @@ section h2 {
     color: var(--accent);
 }
 
+/* --- Glow Effect untuk Contact Form --- */
+.contact-form {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.3s ease, 
+                box-shadow 0.3s ease;
+}
+
+/* Efek Glow Border & Bayangan saat Kursor Diarahkan */
+.contact-form:hover {
+    border-color: var(--accent);
+    box-shadow: 0 12px 35px -10px rgba(56, 189, 248, 0.2); /* Glow biru cyan */
+}
+
+/* Elemen Cahaya Spotlight Kursor untuk Form */
+.contact-form::before {
+    content: '';
+    position: absolute;
+    top: var(--mouse-y, -100px);
+    left: var(--mouse-x, -100px);
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(56, 189, 248, 0) 70%);
+    transform: translate(-50%, -50%);
+    pointer-events: none; /* Supaya tidak menghalangi klik mouse */
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.contact-form:hover::before {
+    opacity: 0.5;
+}
+
 footer {
     text-align: right;
     padding: 20px 20px;
     border-top: 1px solid var(--card-border);
     color: var(--text-secondary);
     font-size: 0.85rem;
-    margin-top: 70px;
+    margin-top: 20px;
 }
 
 /* Styling Tombol Toggle Lingkaran */
@@ -613,7 +651,7 @@ html {
         border: 1px solid var(--card-border);
         padding: 32px;
         border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);  
     }
 
     .form-group {

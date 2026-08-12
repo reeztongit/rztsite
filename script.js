@@ -26,15 +26,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const observerOptions = {
         root: null,
-        threshold: 0.15, // Muncul saat 15% bagian elemen masuk layar
-        rootMargin: "0px"
+        threshold: 0.4, // Cukup 10% elemen terlihat untuk muncul
+        rootMargin: "-50px 0px -50px 0px" // Memberi jarak toleransi 50px agar tidak mendadak hilang di tepi layar
     };
 
-    const revealObserver = new IntersectionObserver((entries, observer) => {
+    const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('active'); // Aktifkan animasi CSS
-                observer.unobserve(entry.target);     // Jalankan animasi 1x saja
+                entry.target.classList.add('active');
+            } else {
+                // Hanya hapus class active jika elemen benar-benar keluar jauh dari layar
+                entry.target.classList.remove('active');
             }
         });
     }, observerOptions);
@@ -43,19 +45,19 @@ document.addEventListener('DOMContentLoaded', () => {
         revealObserver.observe(element);
     });
 
-    // Menghitung posisi kursor mouse di dalam kartu proyek
-    const cards = document.querySelectorAll('.project-card');
+// Aktifkan Efek Spotlight Mouse untuk Kartu Proyek DAN Form Kontak
+const glowElements = document.querySelectorAll('.project-card, .contact-form');
 
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left; // Posisi X mouse relatif terhadap kartu
-            const y = e.clientY - rect.top;  // Posisi Y mouse relatif terhadap kartu
+glowElements.forEach(element => {
+    element.addEventListener('mousemove', (e) => {
+        const rect = element.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
-        });
+        element.style.setProperty('--mouse-x', `${x}px`);
+        element.style.setProperty('--mouse-y', `${y}px`);
     });
+});
 
 
     // Interactive Mouse Tracking dengan Jangkauan & Ayunan Abstrak
