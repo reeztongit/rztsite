@@ -1,105 +1,149 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    /* ==========================================================================
+       1. THEME TOGGLE SYSTEM (ACCESSIBLE)
+       ========================================================================== */
     const themeToggleBtn = document.getElementById('theme-toggle');
-    
-    // 1. Cek simpanan tema di localStorage / preferensi browser
     const savedTheme = localStorage.getItem('theme');
     const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
 
-    // Set tema awal
-    if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
-        document.documentElement.setAttribute('data-theme', 'light');
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
+    const initialTheme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
+    applyTheme(initialTheme);
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+            
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
     }
 
-    // 2. Event click untuk toggle tema
-    themeToggleBtn.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        if (themeToggleBtn) {
+            themeToggleBtn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+        }
+    }
 
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-
-    
-    });
+    /* ==========================================================================
+       2. SCROLL REVEAL ANIMATION (TRIGGER ONCE)
+       ========================================================================== */
     const revealElements = document.querySelectorAll('.reveal');
 
-    const observerOptions = {
-        root: null,
-        threshold: 0.4, // Cukup 10% elemen terlihat untuk muncul
-        rootMargin: "-50px 0px -50px 0px" // Memberi jarak toleransi 50px agar tidak mendadak hilang di tepi layar
-    };
+    if (revealElements.length > 0) {
+        const observerOptions = {
+            root: null,
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
 
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            } else {
-                // Hanya hapus class active jika elemen benar-benar keluar jauh dari layar
-                entry.target.classList.remove('active');
-            }
-        });
-    }, observerOptions);
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
 
-    revealElements.forEach(element => {
-        revealObserver.observe(element);
-    });
-
-// Aktifkan Efek Spotlight Mouse untuk Kartu Proyek DAN Form Kontak
-const glowElements = document.querySelectorAll('.project-card, .contact-form');
-
-glowElements.forEach(element => {
-    element.addEventListener('mousemove', (e) => {
-        const rect = element.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        element.style.setProperty('--mouse-x', `${x}px`);
-        element.style.setProperty('--mouse-y', `${y}px`);
-    });
-});
-
-
-    // Interactive Mouse Tracking dengan Jangkauan & Ayunan Abstrak
-    const interactiveOrb = document.getElementById('interactive-orb');
-
-    if (interactiveOrb) {
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        let orbX = mouseX;
-        let orbY = mouseY;
-        let rotation = 0;
-
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        function animateOrb() {
-            // Angka 0.03 membuat pergerakannya mengejar lebih lambat sehingga ayunannya terasa lebih jauh
-            orbX += (mouseX - orbX) * 0.03; 
-            orbY += (mouseY - orbY) * 0.03;
-            rotation += 0.2; // Memutar orb kursor perlahan secara terus menerus
-
-            interactiveOrb.style.transform = `translate(${orbX - 200}px, ${orbY - 175}px) rotate(${rotation}deg)`;
-            requestAnimationFrame(animateOrb);
-        }
-
-        animateOrb();
+        revealElements.forEach(element => revealObserver.observe(element));
     }
 
-    // --- AJAX Form Handling Web3Forms ---
+    /* ==========================================================================
+       3. NAVIGATION HIGHLIGHTER (SCROLLSPY)
+       ========================================================================== */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    if (sections.length > 0 && navLinks.length > 0) {
+        const scrollspyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const currentId = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        if (link.getAttribute('href') === `#${currentId}`) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, {
+            root: null,
+            threshold: 0.5 // Menyalakan indikator jika 50% section terlihat di layar
+        });
+
+        sections.forEach(section => scrollspyObserver.observe(section));
+    }
+
+    /* ==========================================================================
+       4. SPOTLIGHT MOUSE EFFECT
+       ========================================================================== */
+    const glowElements = document.querySelectorAll('.project-card, .contact-form');
+
+    glowElements.forEach(element => {
+        let ticking = false;
+
+        element.addEventListener('mousemove', (e) => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const rect = element.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    element.style.setProperty('--mouse-x', `${x}px`);
+                    element.style.setProperty('--mouse-y', `${y}px`);
+                    element.style.setProperty('--glow-opacity', '1');
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        element.addEventListener('mouseleave', () => {
+            element.style.setProperty('--glow-opacity', '0');
+        });
+    });
+
+    /* ==========================================================================
+       5. QUICK COPY EMAIL FEATURE
+       ========================================================================== */
+    const copyEmailBtn = document.getElementById('copy-email-btn');
+    const copyBtnText = document.getElementById('copy-btn-text');
+    const emailToCopy = "hariztoneverything@gmail.com";
+
+    if (copyEmailBtn && copyBtnText) {
+        copyEmailBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(emailToCopy).then(() => {
+                copyBtnText.innerText = "Tersalin!";
+                copyEmailBtn.classList.add('copied');
+
+                setTimeout(() => {
+                    copyBtnText.innerText = "Salin Email";
+                    copyEmailBtn.classList.remove('copied');
+                }, 2500);
+            }).catch(err => {
+                console.error('Gagal menyalin text: ', err);
+            });
+        });
+    }
+
+    /* ==========================================================================
+       6. AJAX FORM HANDLING (WEB3FORMS)
+       ========================================================================== */
     const form = document.getElementById('contact-form');
     const result = document.getElementById('form-result');
     const submitBtn = document.getElementById('form-btn');
+    const btnText = document.getElementById('btn-text');
 
-    if (form) {
+    if (form && result && submitBtn) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Ubah teks tombol saat sedang mengirim
-            const originalBtnText = submitBtn.innerText;
-            submitBtn.innerText = 'Mengirim...';
+            if (btnText) btnText.innerText = 'Mengirim Pesan...';
             submitBtn.disabled = true;
 
             const formData = new FormData(form);
@@ -115,28 +159,27 @@ glowElements.forEach(element => {
                 body: json
             })
             .then(async (response) => {
-                let json = await response.json();
-                if (response.status == 200) {
+                let resJson = await response.json();
+                if (response.status === 200) {
                     result.className = "form-result success";
                     result.innerHTML = "✨ Pesan berhasil terkirim! Saya akan segera membalasnya.";
+                    form.reset();
                 } else {
                     result.className = "form-result error";
-                    result.innerHTML = json.message;
+                    result.innerHTML = resJson.message || "Terjadi kesalahan saat mengirim pesan.";
                 }
             })
-            .catch(error => {
+            .catch(() => {
                 result.className = "form-result error";
-                result.innerHTML = "Terjadi kesalahan. Silakan coba lagi nanti.";
+                result.innerHTML = "Terjadi kesalahan koneksi. Silakan coba lagi nanti.";
             })
-            .then(function() {
-                // Reset form dan tombol
-                form.reset();
-                submitBtn.innerText = originalBtnText;
+            .finally(() => {
+                if (btnText) btnText.innerText = 'Kirim Pesan';
                 submitBtn.disabled = false;
                 
-                // Sembunyikan notifikasi setelah 5 detik
                 setTimeout(() => {
-                    result.style.display = "none";
+                    result.innerHTML = "";
+                    result.className = "form-result";
                 }, 5000);
             });
         });
